@@ -45,11 +45,13 @@ Nodes contain an
 * **byte 28, len 8** is a the **double** maxy of the node
 * **byte 36, len 4** is an **integer** numShapes, the count of shape ids stored in this node
 * **byte 40, len 4\*numShapes** is an **array of integer** shape ids
-* **btye 40+4\*numShapes, 40+4\*numShapes+4** is an **integer** numChildren number of child nodes under this node
+* **byte 40+4\*numShapes, len 4 is an **integer** numChildren number of child nodes under this node
 
 All **integer** and **double** values may require a byte swap, if the system byte order differs from the file byte order.
 
-Note that the **offset** is the distance in bytes from just after the numShapes entry, 40 bytes from the start of the node. Or put another way, "offset + 40" is the distance from the start of **this** node to the start of the **next sibling** node.
+Note that the **offset** is the distance in bytes from just after the numChildren entry at the end of the node. Or put another way, "offset + 44 + numShapes * 4" is the distance from the start of **this** node to the start of the **next sibling** node.
+
+Additionally shape ids are zero indexed unlike in the Shapefile spec which mandates record numbers to start at 1.
 
 ## Arrangement of Components
 
